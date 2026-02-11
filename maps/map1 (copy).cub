@@ -1,0 +1,13 @@
+NO ./assets/north.xpm42
+SO ./assets/south.xpm42
+EA ./assets/east.xpm42
+WE ./assets/west.xpm42
+
+F 120,10,0
+C 0,0,139
+
+111111111
+100000W01
+101111001
+101 101001
+111111111
