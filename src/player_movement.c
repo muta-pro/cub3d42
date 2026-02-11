@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-#define SPEED 1
+#define SPEED 2
 //check first diagonal (no jitter)
 //if diagonal failed - slide along wall.
 void	move_forward(t_game *game, t_player *player)

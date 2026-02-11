@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 20:31:35 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 06:13:14 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:08:48 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ static void	draw_sp_dot(t_game *g, t_spr *sp)
 	int		dy;
 	int		x;
 	int		y;
+	int		size;
 
-	dy = -1;
+	size = 8;
+	dy = -size / 2;
 	while (dy <= 1)
 	{
-		dx = -1;
-		while (dx <= 1)
+		dx = -size / 2;
+		while (dx <= size / 2)
 		{
 			x = sp->screen_x + dx;
 			y = sp->screen_y + dy;

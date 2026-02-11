@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-#define COLISION_MAR 0.05
+#define COLISION_MAR 0.2
 
 void	try_move(t_game *game, t_player *player, double dx, double dy)
 {

@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 09:39:53 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 11:36:12 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:11:35 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	render_sprite(t_game *g, t_spr *s)
 	if (s->spr_y <= 0)
 		return ;
 	spr_screenx = (int)((g->screen_w / 2) * (1 + s->spr_x / s->spr_y));
-	s->spr_h = abs((int)(g->screen_h / s->spr_y) / 2);
+	s->spr_h = abs((int)(g->screen_h / s->spr_y));
 	s->spr_w = s->spr_h;
 	s->drw_starty = -s->spr_h / 2 + g->screen_h / 2;
 	if (s->drw_starty < 0)
