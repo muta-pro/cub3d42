@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 10:57:17 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 11:26:55 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/19 08:00:23 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void	draw_minimap(t_game *g)
 	(void)g;
 }
 
-bool	load_spr(t_game *g)
+void	find_door(t_game *g)
 {
 	(void)g;
-	return (true);
 }
 
 bool	init_sprite(t_game *g)

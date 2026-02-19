@@ -91,5 +91,6 @@ bool	load_map(t_game *g, const char *filename)
 	parse_map_grid(lines, map_start, g);
 	find_spawn(g);
 	free_lines(lines);
+	find_door(g);
 	return (true);
 }

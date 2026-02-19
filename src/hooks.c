@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 18:51:43 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 10:49:59 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/18 02:20:22 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	key_press(mlx_key_data_t keydata, void *param)
 		if (g->img_mini && g->img_mini->count > 0)
 			g->img_mini->instances[0].enabled = g->show_minimap;
 	}
+	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
+		try_open(g);
 }
 //register all hooks
 //init mouse position for rotation

@@ -49,7 +49,7 @@ void	init_player(t_player *p, char orient, int x, int y)
 static int	valid_ch(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == '1' || c == '0' || c == ' ');
+		|| c == '1' || c == '0' || c == ' ' || c == 'D');
 }
 
 static void	consume_spawn(t_game *g, int x, int y, int *count)

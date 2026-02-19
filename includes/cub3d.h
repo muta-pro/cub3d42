@@ -72,6 +72,13 @@ typedef struct s_spr
 	double 			spr_y;
 }	t_spr;
 
+typedef struct s_door
+{
+	int		x;
+	int		y;
+	bool	open;
+}	t_door;
+
 typedef	struct s_ray
 {
 	double	camera_x;	// x coordinate on camera plane (-1 to 1)
@@ -113,7 +120,8 @@ typedef enum e_side
 	TEX_N = 0,
 	TEX_S = 1,
 	TEX_W = 2,
-	TEX_E = 3
+	TEX_E = 3,
+	TEX_D = 4
 }	t_side;
 
 typedef struct s_tex_path
@@ -122,6 +130,7 @@ typedef struct s_tex_path
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	*d;
 }			t_texpath;
 
 typedef struct s_color
@@ -162,7 +171,7 @@ typedef	struct	s_game
 	t_map			map;
 	t_color			color;
 	t_texpath		paths;
-	t_texset		tex[4];
+	t_texset		tex[5];
 	int				screen_w;
 	int				screen_h;
 	mlx_image_t		*img_mini;
@@ -173,6 +182,8 @@ typedef	struct	s_game
 	mlx_texture_t	**s_frames;
 	t_spr			*sprite;
 	double			z_buff[SCREEN_WIDTH];
+	t_door			*door;
+	int				num_doors;
 }	t_game;
 
 static inline uint32_t	rgb_to_rgba(int rgb)
@@ -188,6 +199,7 @@ void			init_minimap(t_game *g);
 bool			init_sprite(t_game *g);
 bool			load_spr(t_game *g);
 void			set_spr_spawn(t_game *g);
+void			init_door(t_game *g, int count);
 //rgb.c
 bool			parse_rgb(const char *s, int *out_color);
 
@@ -210,10 +222,14 @@ void			parse_map_grid(char **lines, int map_start, t_game *game);
 void			find_spawn(t_game *g);
 void			valid_map(t_game *g);
 bool			is_inside(t_game *g, int x, int y);
+bool			is_out_of_bounds(t_map *map, int x, int y);
+void			find_door(t_game *g);
+int				pos_door(t_game *g, int x, int y);
 
 //raycasting
-void			cast_ray(t_player *player, t_map *map, t_ray *ray);
-
+void			cast_ray(t_player *player, t_game *g, t_ray *ray);
+bool			hit_door(t_game *g, int x, int y);
+bool			hit_wall_or_bounds(t_map *map, int x, int y);
 //render
 void			render_scene(t_game *game, t_player *player, t_ray *ray);
 uint32_t		get_wall_color(t_ray *ray);
@@ -232,6 +248,7 @@ void			setup_hooks(t_game *game);
 void			handle_movement(t_game *game);
 bool			is_valid_position(t_game *game, double x, double y);
 void			try_move(t_game *game, t_player *player, double dx, double dy);
+void			try_open(t_game *g);
 
 //player_rotation
 void			handle_rotation(t_game *game);

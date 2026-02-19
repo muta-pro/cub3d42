@@ -86,7 +86,7 @@ void	render_scene(t_game *game, t_player *player, t_ray *ray)
 	while (x < game->screen_w)
 	{
 		init_ray_dir(game, player, ray, x);
-		cast_ray(player, &game->map, ray);
+		cast_ray(player, game, ray);
 		calc_line_height(game, ray);
 		draw_vertical_line(game, x, ray);
 		game->z_buff[x] = ray->perp_wall_dist;

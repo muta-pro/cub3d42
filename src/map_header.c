@@ -72,6 +72,8 @@ bool	parse_tex_line(const char *line, t_game *g)
 		return (set_tex_path(&g->paths.we, line + 3, g));
 	if (ft_strncmp(line, "EA ", 3) == 0)
 		return (set_tex_path(&g->paths.ea, line + 3, g));
+	if (ft_strncmp(line, "DO ", 3) == 0)
+		return (set_tex_path(&g->paths.d, line + 3, g));
 	return (false);
 }
 

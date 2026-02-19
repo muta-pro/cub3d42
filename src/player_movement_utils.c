@@ -33,25 +33,29 @@ void	try_move(t_game *game, t_player *player, double dx, double dy)
 		player->pos.y = new_pos_y;
 }
 
-static bool	is_wall(t_map *map, int x, int y)
+static bool	is_wall(t_game *g, int x, int y)
 {
+	t_map	*map;
+
+	map = &g->map;
 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
 		return (true);
-	return (map->grid[y][x] == '1' || map->grid[y][x] == ' ');
+	if (map->grid[y][x] == '1' || map->grid[y][x] == ' ')
+		return (true);
+	if (hit_door(g, x, y))
+		return (true);
+	return (false);
 }
 
 bool	is_valid_position(t_game *game, double x, double y)
 {
-	t_map	*map;
-
-	map = &game->map;
-	if (is_wall(map, (int)(x - COLISION_MAR), (int)(y - COLISION_MAR)))
+	if (is_wall(game, (int)(x - COLISION_MAR), (int)(y - COLISION_MAR)))
 		return (false);
-	if (is_wall(map, (int)(x + COLISION_MAR), (int)(y - COLISION_MAR)))
+	if (is_wall(game, (int)(x + COLISION_MAR), (int)(y - COLISION_MAR)))
 		return (false);
-	if (is_wall(map, (int)(x - COLISION_MAR), (int)(y + COLISION_MAR)))
+	if (is_wall(game, (int)(x - COLISION_MAR), (int)(y + COLISION_MAR)))
 		return (false);
-	if (is_wall(map, (int)(x + COLISION_MAR), (int)(y + COLISION_MAR)))
+	if (is_wall(game, (int)(x + COLISION_MAR), (int)(y + COLISION_MAR)))
 		return (false);
 	return (true);
 }

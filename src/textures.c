@@ -44,5 +44,9 @@ bool	load_textures(t_game *g)
 		return (false);
 	if (!load_e_tex(g))
 		return (false);
+	if (g->paths.d)
+		load_one_t(g, TEX_D, g->paths.d);
+	else
+		g->tex[TEX_D].xpm = g->tex[TEX_W].xpm;
 	return (true);
 }

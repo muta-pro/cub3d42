@@ -40,6 +40,8 @@ uint32_t	sample_texture(xpm_t *xpm, double tex_x, double tex_y)
 
 xpm_t	*get_text(t_game *g, t_ray *ray)
 {
+	if (g->map.grid[ray->map_y][ray->map_x] == 'D')
+		return (g->tex[TEX_D].xpm);
 	if (ray->side == 0 && ray->ray_dir_x > 0)
 		return (g->tex[TEX_W].xpm);
 	if (ray->side == 0)

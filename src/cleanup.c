@@ -35,6 +35,8 @@ void	final_cleanup(t_game *g)
 	free_tex(g);
 	free_textures(g);
 	free_sprite(g);
+	if (g->door)
+		free(g->door);
 	if (g->mlx)
 		mlx_terminate(g->mlx); //kills wind and img
 }
