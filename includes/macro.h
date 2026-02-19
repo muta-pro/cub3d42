@@ -18,6 +18,8 @@
 # define ERR_HEAD_CH "Error\nIncorrect identifier in header"
 # define ERR_MAP_CHARS "Error\nInvalid characters in map"
 # define ERR_MISS_COLOR "Error\nMissing color"
+# define ERR_COLOR_FORM "Error\nWrong color format"
+# define ERR_DUPL "Error\nInvalid duplicates"
 # define ERR_MAP_EMPTY_LN "Error\nEmpty lines inside map"
 # define ERR_MAP_LN "Error\nInvalid map line"
 # define ERR_MAP_SPAWN "Error\nMap must contain exactly one spawn"
@@ -28,7 +30,9 @@
 # define ERR_MEMORY "Error\nMemory allocation failed"
 # define ERR_MLX "Error\nMLX initialization failed"
 # define ERR_MAP_EMPTY "Error\nMAP file is invalid"
+# define ERR_MAP_SZ "Error\nMAP size invalid"
 # define ERR_NO_TEX_ID "Error\nTexture identifier not present"
+# define ERR_TEX_PATH "Error\nNo texture path"
 # define ERR_TEX_LOAD "Error\nFailed texture loading"
 # define ERR_SPR_INIT "Error\nFailed sprite initialization"
 //.cub identifiers
@@ -50,25 +54,25 @@
 //minimap size
 # ifndef MINI_TL_SZ
 # define MINI_TL_SZ 20
-#endif
+ #endif
 # ifndef MINI_VIEW_RANGE
 # define MINI_VIEW_RANGE 15
-#endif
+# endif
 //210pxl
 # ifndef MINI_H
 # define MINI_H ((MINI_VIEW_RANGE * 2 + 1) * MINI_TL_SZ)
-#endif
+# endif
 # ifndef MINI_W
 # define MINI_W ((MINI_VIEW_RANGE * 2 + 1) * MINI_TL_SZ)
-#endif
+# endif
 
-#define RED_DOT 0xFF0000FF
-#define SPR_DOT 0x00FF00FF
-#define MINI_WALL 0xFFFFFF80
-#define WALK_TRNS 0x20FF0060
-#define MINI_EMPTY 0x00800030
-#define DIR_RAY 0x00FF00FF
-#define FALLBACK 0xFF00FFFF
+# define RED_DOT 0xFF0000FF
+# define SPR_DOT 0x00FF00FF
+# define MINI_WALL 0xFFFFFF80
+# define WALK_TRNS 0x20FF0060
+# define MINI_EMPTY 0x00800030
+# define DIR_RAY 0x00FF00FF
+# define FALLBACK 0xFF00FFFF
 
 
 # define CREATE_RGB(r, g, b) ((r) << 16 | (g) << 8 | (b))
@@ -78,4 +82,4 @@
 # define E_COLOR CREATE_RGB(2, 47, 226)
 # define W_COLOR CREATE_RGB(192, 244, 5)
 
-#endif
+# endif

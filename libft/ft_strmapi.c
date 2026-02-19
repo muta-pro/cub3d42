@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strmapi.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/14 16:05:01 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:28:23 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 16:11:23 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:44:40 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	char	*res;
-	int		i;
-	int		len;
+	unsigned int	i;
+	char			*dst;
 
-	len = 0;
 	i = 0;
-	while (s[len])
-		len++;
-	res = malloc(len + 1);
-	if (res == NULL)
+	dst = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!dst)
 		return (NULL);
-	while (s[i] != '\0')
+	while (i < ft_strlen(s))
 	{
-		res[i] = f(i, s[i]);
+		dst[i] = (f)(i, s[i]);
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	dst[i] = '\0';
+	return (dst);
 }

@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strjoin.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/10 15:50:21 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:27:38 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 16:09:42 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:44:32 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		len;
-	char	*res;
-	char	*start;
+	char	*dst;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 && !s2)
+	i = 0;
+	j = 0;
+	dst = (char *)malloc(ft_strlen(s1) + (ft_strlen(s2) + 1) * sizeof(char));
+	if (!dst)
 		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	len = ft_strlen(s1) + ft_strlen(s2);
-	res = malloc((size_t)len + 1);
-	if (!res)
-		return (NULL);
-	start = res;
-	while (*s1)
-		*res++ = *s1++;
-	while (*s2)
-		*res++ = *s2++;
-	*res = '\0';
-	return (start);
+	while (s1[i] != '\0')
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		dst[i + j] = s2[j];
+		j++;
+	}
+	dst[i + j] = '\0';
+	return (dst);
 }

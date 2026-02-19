@@ -1,177 +1,137 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rbagin <rbagin@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/11/14 13:53:47 by rbagin        #+#    #+#                 */
-/*   Updated: 2025/04/16 16:34:11 by rbagin        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 22:12:28 by imutavdz          #+#    #+#             */
+/*   Updated: 2026/02/16 23:15:49 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	polish_list(t_list **list)
+static t_gnl	*get_node(t_gnl **head, int fd)
 {
-	t_list	*last_node;
-	t_list	*clean_node;
-	int		i;
-	int		k;
-	char	*buf;
+	t_gnl	*node;
 
-	buf = malloc(BUFFER_SIZE + 1);
-	clean_node = malloc(sizeof(t_list));
-	if (!buf || !clean_node)
+	node = *head;
+	while (node)
 	{
-		free(buf);
-		free(clean_node);
-		return ;
+		if (node->fd == fd)
+			return (node);
+		node = node->next;
 	}
-	last_node = find_last_node(*list);
-	i = 0;
-	k = 0;
-	while (last_node->str_buf[i] && last_node->str_buf[i] != '\n')
-		++i;
-	while (last_node->str_buf[i] && last_node->str_buf[++i])
-		buf[k++] = last_node->str_buf[i];
-	buf[k] = '\0';
-	clean_node->str_buf = buf;
-	clean_node->next = NULL;
-	dealloc(list, clean_node, buf);
-}
-
-char	*exctract_line(t_list *list)
-{
-	int		str_len;
-	char	*next_str;
-
-	if (NULL == list)
+	node = malloc(sizeof(t_gnl));
+	if (!node)
 		return (NULL);
-	str_len = len_to_newline(list);
-	next_str = malloc(str_len + 1);
-	if (NULL == next_str)
+	node->fd = fd;
+	node->buffer = ft_strdup("");
+	if (!node->buffer)
 	{
-		free(next_str);
+		free(node);
 		return (NULL);
 	}
-	copy_str(list, next_str);
-	return (next_str);
+	node->next = *head;
+	*head = node;
+	return (node);
 }
 
-void	append(t_list **list, char *buf, int fd)
+static void	free_node(t_gnl **head, int fd)
 {
-	t_list	*new_node;
-	t_list	*last_node;
+	t_gnl	*previous;
+	t_gnl	*current;
 
-	last_node = find_last_node(*list);
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
+	previous = NULL;
+	current = *head;
+	while (current)
 	{
-		free(buf);
-		return ;
+		if (current->fd == fd)
+		{
+			if (previous)
+				previous->next = current->next;
+			else
+				*head = current->next;
+			free(current->buffer);
+			free(current);
+			return ;
+		}
+		previous = current;
+		current = current->next;
 	}
-	if (!last_node)
-		*list = new_node;
-	else
-		last_node->next = new_node;
-	new_node->str_buf = buf;
-	new_node->next = NULL;
-	new_node->file_descriptor = fd;
 }
 
-void	*create_list(t_list **list, int fd)
+static int	read_into_buf(t_gnl *node)
 {
+	char	*buffer;
+	char	*temp;
 	int		char_read;
-	char	*buf;
 
-	char_read = 1;
-	while (!found_newline(*list))
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (-1);
+	char_read = read(node->fd, buffer, BUFFER_SIZE);
+	if (char_read <= 0)
 	{
-		buf = malloc(BUFFER_SIZE + 1);
-		if (NULL == buf)
-			return (NULL);
-		char_read = read(fd, buf, BUFFER_SIZE);
-		if (char_read < 0)
-		{
-			free(buf);
-			return (NULL);
-		}
-		if (char_read == 0)
-		{
-			free(buf);
-			return (list);
-		}
-		buf[char_read] = '\0';
-		append(list, buf, fd);
+		free(buffer);
+		return (char_read);
 	}
-	return (list);
+	buffer[char_read] = '\0';
+	temp = join_buffer(node->buffer, buffer);
+	free(buffer);
+	free(node->buffer);
+	node->buffer = temp;
+	if (temp)
+		return (1);
+	else
+		return (-1);
+}
+
+static char	*extract_line(char **buffer)
+{
+	char	*line;
+	char	*temp;
+	size_t	i;
+
+	i = 0;
+	if (!*buffer || !**buffer)
+		return (NULL);
+	while ((*buffer)[i] && (*buffer)[i] != '\n')
+		i++;
+	if ((*buffer)[i] == '\n')
+		i++;
+	line = ft_strndup(*buffer, i);
+	if (!line)
+		return (NULL);
+	temp = ft_strdup(*buffer + i);
+	free(*buffer);
+	*buffer = temp;
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list = NULL;
-	char			*next_line;
+	static t_gnl	*head;
+	t_gnl			*node;
+	char			*line;
+	int				res;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (create_list(&list, fd) == NULL)
-		return (dealloc(&list, NULL, NULL), NULL);
-	if (list == NULL)
+	node = get_node(&head, fd);
+	if (!node)
 		return (NULL);
-	next_line = exctract_line(list);
-	polish_list(&list);
-	return (next_line);
+	res = 1;
+	while (res > 0 && !ft_strchr(node->buffer, '\n'))
+		res = read_into_buf(node);
+	if (res == -1)
+	{
+		free_node(&head, fd);
+		return (NULL);
+	}
+	line = extract_line(&node->buffer);
+	if (!line || !node->buffer)
+		free_node(&head, fd);
+	return (line);
 }
-
-// #include "get_next_line.h"
-// int  main(void)
-// {
-// 	int fd;
-// 	char    *str = "";
-// 	fd = open("test1.txt", O_RDONLY);
-// 	if (fd < 0)
-// 	{
-// 		write (1, "ERRO to open fd", 16);
-// 		close(fd);
-// 		return (0);
-// 	}
-// 	while (str != NULL)
-// 	{
-// 		str = get_next_line(fd);
-// 		if (str != NULL)
-// 		{
-// 			printf ("%s", str);
-// 			free(str);
-// 		}
-// 	}
-// 	printf ("%s", str);
-// 	return (0);
-// }
-// Testing.txt
-// 1 2 3 4  5 6 7 8 9
-// a|b|c|5|\n|a|b|c|1|
-
-// 10
-// 0  1 2 3 4 5  6  7 8 9
-// 0|\n|a|b|1|5|\n|\n|a|b|
-
-// 20
-// 0 1  2 3 4 5 6  7 8 9 0 1  2  3 4 5 6 7  8 9
-// 2|1|\n|a|b|2|6|\n|a|b|3|1|\n|\n|a|b|3|7|\n|a
-
-// 30
-// 0 1 2  3 4 5 6 7  8  9
-// b|4|2|\n|a|b|4|7|\n|\n|
-
-// 40
-//  0  1 2 3 4 5  6 7 8 9
-// \n|\n|a|b|5|5|\n|a|b|6
-
-// 50
-// 0  1 2 3 4 5  6 7 8 9
-// 0|\n|a|b|6|5|\n|e|n|d
-
-// 60
-// 0 1  2 3 4 5
-// 7|1|\n|7|5|\n

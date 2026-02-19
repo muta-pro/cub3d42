@@ -22,34 +22,38 @@ bool	parse_color_line(const char *line, t_game *g)
 		line++;
 	if (ft_strncmp(line, "F ", 2) == 0)
 	{
+		if (g->color.f_set)
+			print_exit(ERR_DUPL, g, true);
 		if (parse_rgb(line + 2, &g->color.floor))
 			return (g->color.f_set = true, true);
-		return (false);
+		return (print_exit(ERR_COLOR_FORM, g, false), false);
 	}
 	if (ft_strncmp(line, "C ", 2) == 0)
 	{
+		if (g->color.c_set)
+			print_exit(ERR_DUPL, g, true);
 		if (parse_rgb(line + 2, &g->color.ceiling))
 			return (g->color.c_set = true, true);
-		return (false);
+		return (print_exit(ERR_COLOR_FORM, g, false), false);
 	}
 	return (false);
 }
-//Set texture path, ensure no duplicates
+//Set texture path, ensure no path duplicates
 //path_ptr: Source path string (after identifier)
 
-bool	set_tex_path(char **dst, const char *path_pt)
+bool	set_tex_path(char **dst, const char *path_ptr, t_game *g)
 {
 	char	*trim;
 
 	if (*dst != NULL)
-		return (false);
-	trim = ft_strtrim(path_pt, " \t\n\r");
+		return (print_exit("ERR_DUPL", g, true), false);
+	trim = ft_strtrim(path_ptr, " \t\n\r");
 	if (!trim)
-		return (false);
+		return (print_exit("ERR_MEMORY", g, true), false);
 	if (trim[0] == '\0')
 	{
 		free(trim);
-		return (false);
+		return (print_exit("ERR_TEX_PATH", g, true), false);
 	}
 	*dst = trim;
 	return (true);
@@ -61,14 +65,23 @@ bool	parse_tex_line(const char *line, t_game *g)
 	while (*line == ' ' || *line == '\t')
 		line++;
 	if (ft_strncmp(line, "NO ", 3) == 0)
-		return (set_tex_path(&g->paths.no, line + 3));
+		return (set_tex_path(&g->paths.no, line + 3, g));
 	if (ft_strncmp(line, "SO ", 3) == 0)
-		return (set_tex_path(&g->paths.so, line + 3));
+		return (set_tex_path(&g->paths.so, line + 3, g));
 	if (ft_strncmp(line, "WE ", 3) == 0)
-		return (set_tex_path(&g->paths.we, line + 3));
+		return (set_tex_path(&g->paths.we, line + 3, g));
 	if (ft_strncmp(line, "EA ", 3) == 0)
-		return (set_tex_path(&g->paths.ea, line + 3));
+		return (set_tex_path(&g->paths.ea, line + 3, g));
 	return (false);
+}
+
+static bool	all_headers_set(t_game *g)
+{
+	if (!g->paths.no || !g->paths.so || !g->paths.ea || !g->paths.we)
+		return (print_exit("ERR_TEX_PATH", g, true), false);
+	if (!g->color.f_set || !g->color.c_set)
+		return (print_exit("ERR_MISS_COLOR", g, true), false);
+	return (true);
 }
 //Parse header section (textures and colors)
 //Processes lines until map starts.
@@ -78,7 +91,7 @@ int	parse_header(char **lines, t_game *g)
 {
 	int	i;
 
-	i = 0; //can iterate wuth a pointer instead
+	i = 0;
 	while (lines[i])
 	{
 		if (is_blank_line(lines[i]))
@@ -87,7 +100,11 @@ int	parse_header(char **lines, t_game *g)
 			continue ;
 		}
 		if (is_map_line(lines[i]))
+		{
+			if (!all_headers_set(g))
+				return (-1);
 			return (i);
+		}
 		if (parse_tex_line(lines[i], g) || parse_color_line(lines[i], g))
 		{
 			i++;

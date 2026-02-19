@@ -26,7 +26,7 @@ static void	calc_dim_map(char **lines, int m_start, t_game *g)
 	while (lines[m_start + height])
 	{
 		if (is_blank_line(lines[m_start + height]))
-			break ; // Don't error yet. Valid will handle if map is too small.
+			break ;// Don't error yet. Valid will handle if map is too small.
 		if (!is_map_line(lines[m_start + height]))
 			print_exit(ERR_MAP_LN, g, true);
 		len = ft_strlen(lines[m_start + height]); //do we need int cast?

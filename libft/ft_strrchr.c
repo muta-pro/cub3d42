@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strrchr.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/08 18:14:16 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:28:50 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/15 23:15:47 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/31 13:54:49 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
+#include <string.h>
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	int				i;
+	unsigned char	uc;
+	char			*last_uc;
 
+	last_uc = NULL;
+	uc = (unsigned char)c;
 	i = 0;
 	while (s[i] != '\0')
-		i++;
-	if ((unsigned char)c == 0)
-		return ((char *)(s + i));
-	if (i > 0)
-		i = i - 1;
-	else
-		return (NULL);
-	while (i >= 0)
 	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i--;
+		if (s[i] == uc)
+			last_uc = ((char *)&s[i]);
+		i++;
 	}
-	return (NULL);
+	if (uc == '\0')
+		return ((char *)&s[i]);
+	return (last_uc);
 }

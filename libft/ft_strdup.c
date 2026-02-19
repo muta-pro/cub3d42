@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strdup.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/10 15:07:21 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:29:46 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 00:19:34 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:44:28 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 char	*ft_strdup(const char *s)
 {
-	char	*r;
-	size_t	len;
-	char	*start;
+	char	*dest;
+	size_t	i;
 
-	len = ft_strlen(s);
-	if (s == NULL)
+	dest = (char *) malloc((ft_strlen(s) + 1));
+	if (!dest)
 		return (NULL);
-	r = malloc(len + 1);
-	if (r == NULL)
-		return (NULL);
-	start = r;
-	while (*s)
+	i = 0;
+	while (s[i])
 	{
-		*r = *s;
-		r++;
-		s++;
+		dest[i] = s[i];
+		i++;
 	}
-	*r = '\0';
-	return (start);
+	dest[i] = 0;
+	return (dest);
 }

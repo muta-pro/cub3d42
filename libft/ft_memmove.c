@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_memmove.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/09 16:30:17 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:24:53 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/26 14:27:24 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/31 13:51:50 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char		*p;
-	const char	*s;
+	unsigned char		*d;
+	const unsigned char	*s;
+	size_t				i;
 
+	d = (unsigned char *)dest;
+	s = (const unsigned char *)src;
 	if (!dest && !src)
 		return (NULL);
-	p = (char *)dest;
-	s = (const char *)src;
-	if (s > p)
+	i = 0;
+	if (d > s)
 	{
 		while (n-- > 0)
-			*p++ = *s++;
+			d[n] = s[n];
 	}
 	else
 	{
-		p = p + n;
-		s = s + n;
-		while (n-- > 0)
-			*(--p) = *(--s);
+		while (i < n)
+		{
+			d[i] = s[i];
+			i++;
+		}
 	}
 	return (dest);
 }

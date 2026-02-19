@@ -22,7 +22,6 @@ static char	*read_file(int fd, t_game *g)
 	if (!full_str)
 		print_exit(ERR_MEMORY, g, false);
 	line = get_next_line(fd);
-	//if(!line)??
 	while (line)
 	{
 		store = ft_strjoin(full_str, line);
@@ -67,13 +66,13 @@ static int	open_map(const char *name, t_game *g)
 	return (fd);
 }
 
-void	check_identif(t_game *g)
-{
-	if (!g->paths.no || !g->paths.so || !g->paths.we || !g->paths.ea)
-		print_exit(ERR_NO_TEX_ID, g, true);
-	if (!g->color.f_set || !g->color.c_set)
-		print_exit(ERR_MISS_COLOR, g, true);
-}
+// void	check_identif(t_game *g)
+// {
+// 	if (!g->paths.no || !g->paths.so || !g->paths.we || !g->paths.ea)
+// 		print_exit(ERR_NO_TEX_ID, g, true);
+// 	if (!g->color.f_set || !g->color.c_set)
+// 		print_exit(ERR_MISS_COLOR, g, true);
+// }
 
 bool	load_map(t_game *g, const char *filename)
 {
@@ -88,7 +87,7 @@ bool	load_map(t_game *g, const char *filename)
 	lines = split_lines(content, g);
 	free(content);
 	map_start = parse_header(lines, g);
-	check_identif(g);
+	// check_identif(g);
 	parse_map_grid(lines, map_start, g);
 	find_spawn(g);
 	free_lines(lines);

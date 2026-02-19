@@ -2,7 +2,7 @@ NAME = cub3D
 NAME_B = cub3D_bonus
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -ffast-math -O3
+CFLAGS = -Wall -Wextra -Werror -g -ffast-math #-O3
 
 SRCDIR = src
 OBJDIR = obj
@@ -28,6 +28,7 @@ SRC_BOTH = grid.c \
 		start_player.c \
 		validation.c \
 		cleanup.c \
+		free.c \
 		utils_pars.c
 SRC_BNS = bns/init_b.c \
 		bns/bonus_mouse.c \

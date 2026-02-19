@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_substr.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/10 15:34:22 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:28:59 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 16:09:11 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/31 17:07:45 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*res;
-	int		i;
+	size_t	i;
+	char	*str;
 
-	i = 0;
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-	{
+	if (start > ft_strlen(s))
 		return (ft_strdup(""));
-	}
-	while (len-- > 0 && s[i + start] != '\0')
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	str = ft_calloc(len + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
+		str[i] = s[start + i];
 		i++;
 	}
-	s += start;
-	res = malloc(i + 1);
-	if (res == NULL)
-		return (NULL);
-	ft_strlcpy(res, s, i + 1);
-	return (res);
+	return (str);
 }

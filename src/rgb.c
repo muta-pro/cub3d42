@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:26:31 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/08 11:08:15 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/16 21:27:00 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ static bool	parse_single_value(const char *str, int *value, char **next)
 //Parse "R,G,B" format into packed integer
 //out_color: Output color in format 0x00RRGGBB
 //s: String containing "R,G,B" (e.g., "255,100,0")
+
+static bool	comma_next(const char **next)
+{
+	while (**next == ' ' || **next == '\t')
+		(*next)++;
+	if (**next != ',')
+		return (false);
+	(*next)++;
+	return (true);
+}
+
 bool	parse_rgb(const char *s, int *out_color)
 {
 	int		r;
@@ -50,18 +61,10 @@ bool	parse_rgb(const char *s, int *out_color)
 		return (false);
 	if (!parse_single_value(s, &r, &next))
 		return (false);
-	while (*next == ' ' || *next == '\t')
-		next++;
-	if (*next != ',')
-		return (false);
-	next++;
+	comma_next((const char **)&next);
 	if (!parse_single_value(next, &g, &next))
 		return (false);
-	while (*next == ' ' || *next == '\t')
-		next++;
-	if (*next != ',')
-		return (false);
-	next++;
+	comma_next((const char **)&next);
 	if (!parse_single_value(next, &b, &next))
 		return (false);
 	while (*next == ' ' || *next == '\t' || *next == '\n' || *next == '\r')

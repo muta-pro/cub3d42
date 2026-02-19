@@ -75,27 +75,3 @@ bool	load_one_t(t_game *g, int id, char *path)
 	g->tex[id].height = g->tex[id].xpm->texture.height;
 	return (true);
 }
-
-void	free_textures(t_game *g)
-{
-	if (g->tex[TEX_N].xpm)
-	{
-		mlx_delete_xpm42(g->tex[TEX_N].xpm);
-		g->tex[TEX_N].xpm = NULL;
-	}
-	if (g->tex[TEX_S].xpm)
-	{
-		mlx_delete_xpm42(g->tex[TEX_S].xpm);
-		g->tex[TEX_S].xpm = NULL;
-	}
-	if (g->tex[TEX_W].xpm)
-	{
-		mlx_delete_xpm42(g->tex[TEX_W].xpm);
-		g->tex[TEX_W].xpm = NULL;
-	}
-	if (g->tex[TEX_E].xpm)
-	{
-		mlx_delete_xpm42(g->tex[TEX_E].xpm);
-		g->tex[TEX_E].xpm = NULL;
-	}
-}

@@ -12,9 +12,16 @@
 
 #include "cub3d.h"
 
+#define MAX_MAP_H 2000
+#define MAX_MAP_W 2000
+
 //Map validation (flood fill to ensure walls surround player)
 //no holes in the wall
 //player can't wak out of bounds
+static bool	is_walkable(char c)
+{
+	return (c == 'W' || c == 'N' || c == 'E' || c == 'S' || c == 'D' || c == '0');
+}
 
 void	flfill_pl_pos(t_game *g, int x, int y, bool **checked)
 {
@@ -29,7 +36,7 @@ void	flfill_pl_pos(t_game *g, int x, int y, bool **checked)
 		return ;
 	if (c == ' ')
 		print_exit(ERR_MAP_WALLS, g, true);
-	if (c == '0')
+	if (is_walkable(c))
 	{
 		checked[y][x] = true;
 		flfill_pl_pos(g, x + 1, y, checked); //r
@@ -39,11 +46,21 @@ void	flfill_pl_pos(t_game *g, int x, int y, bool **checked)
 	}
 }
 
+static bool	check_map_size(t_game *g)
+{
+	if (g->map.height > MAX_MAP_H || g->map.width > MAX_MAP_W)
+		return (print_exit(ERR_MAP_SZ, g, true), false);
+	if (g->map.height < 3 || g->map.width < 3)
+		return (print_exit(ERR_MAP_SZ, g, true), false);
+	return (true);
+}
+
 void	valid_map(t_game *g)
 {
 	bool	**checked;
 	int		y;
 
+	check_map_size(g);
 	checked = malloc(sizeof(bool *) * g->map.height);
 	if (!checked)
 		print_exit(ERR_MEMORY, g, true);
@@ -51,6 +68,8 @@ void	valid_map(t_game *g)
 	while (y < g->map.height)
 	{
 		checked[y] = ft_calloc(g->map.width, sizeof(bool));
+		if (!checked[y])
+			print_exit(ERR_MEMORY, g, true);
 		y++;
 	}
 	flfill_pl_pos(g, (int)g->player.pos.x, (int)g->player.pos.y, checked);

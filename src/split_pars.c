@@ -6,9 +6,10 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:44:27 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/10 14:52:35 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/17 12:17:46 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 //where and when do I free this line??
 #include "cub3d.h"
 //count_lines - Count number of lines in string
@@ -43,7 +44,7 @@ static char	*extract_line(const char *start, const char *end)
 	size_t	i;
 
 	len = end - start;
-	line = malloc(len + 1);
+	line = malloc(len + 1); //should I free a line here? or is it handeled in load_map?
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -55,6 +56,43 @@ static char	*extract_line(const char *start, const char *end)
 	line[i] = '\0';
 	return (line);
 }
+
+static bool	store_line(char **lines, int *i, const char *start, const char *end)
+{
+	lines[*i] = extract_line(start, end);
+	if (!lines[*i])
+		return (false);
+	(*i)++;
+	return (true);
+}
+
+static void	fill_lines(char **lines, char *file_str, t_game *g)
+{
+	int			i;
+	const char	*start;
+	const char	*curr;
+
+	start = file_str;
+	curr = file_str;
+	i = 0;
+	while (*curr)
+	{
+		if (*curr == '\n')
+		{
+			if (!store_line(lines, &i, start, curr))
+				print_exit(ERR_MEMORY, g, true);
+			start = curr + 1;
+		}
+		curr++;
+	}
+	if (start < curr && *(curr - 1) != '\n')
+	{
+		if (!store_line(lines, &i, start, curr))
+			print_exit(ERR_MEMORY, g, true);
+	}
+	lines[i] = NULL;
+}
+
 //Split file content by newlines into array of strings
 //Each line is a separate allocated string.
 //Returns: NULL-terminated array of strings, or exits on error
@@ -65,9 +103,6 @@ char	**split_lines(char *file_str, t_game *g)
 {
 	char		**lines;
 	int			line_count;
-	int			i;
-	const char	*start;
-	const char	*curr;
 
 	if (!file_str)
 		print_exit(ERR_MEMORY, g, false);
@@ -77,28 +112,6 @@ char	**split_lines(char *file_str, t_game *g)
 	lines = malloc(sizeof(char *) * (line_count + 1));
 	if (!lines)
 		print_exit(ERR_MEMORY, g, false);
-	i = 0;
-	start = file_str;
-	curr = file_str;
-	while (*curr)
-	{
-		if (*curr == '\n')
-		{
-			lines[i] = extract_line(start, curr);
-			if (!lines[i])
-				print_exit(ERR_MEMORY, g, true);
-			i++;
-			start = curr + 1;
-		}
-		curr++;
-	}
-	if (start < curr && *(curr - 1) != '\n')
-	{
-		lines[i] = extract_line(start, curr);
-		if (!lines[i])
-			print_exit(ERR_MEMORY, g, true);
-		i++;
-	}
-	lines[i] = NULL;
+	fill_lines(lines, file_str, g);
 	return (lines);
 }

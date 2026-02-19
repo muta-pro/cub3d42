@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strnstr.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/09 14:11:10 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:28:44 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/21 23:45:49 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:45:11 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-
-size_t	ft_strlen(const char *s);
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
 	size_t	j;
 
-	j = 0;
-	i = 0;
-	if (ft_strlen(little) == 0)
+	if (little[0] == '\0')
 		return ((char *)big);
-	while (big[j] != '\0' && j < len)
+	if (len == 0)
+		return (NULL);
+	i = 0;
+	while (big[i] && i < len)
 	{
-		while (big[j] == little[i] && j < len)
+		if (big[i] == little[0])
 		{
-			j++;
-			i++;
-			if (little[i] == '\0')
-				return ((char *)&big[j - i]);
+			j = 0;
+			while (little[j] && big[i + j]
+				&& (i + j) < len && big[i + j] == little[j])
+				j++;
+			if (little[j] == '\0')
+				return ((char *)&big[i]);
 		}
-		j = j - i;
-		i = 0;
-		j++;
+		i++;
 	}
-	return (0);
+	return (NULL);
 }

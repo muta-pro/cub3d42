@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <math.h>
 # include "libft.h"
-# include "gnl.h"
+# include "get_next_line.h"
 # include "macro.h"
 
 typedef	struct s_game t_game;
@@ -41,6 +41,15 @@ typedef struct s_player
 	double	plane_y;
 	int32_t	last_mouse_x;
 }			t_player;
+
+typedef struct s_orient
+{
+	char	c;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_orient;
 
 typedef struct s_spr
 {
@@ -188,6 +197,8 @@ void			free_lines(char **lines);
 void			free_grid(char **grid);
 void			final_cleanup(t_game *g);
 void			free_textures(t_game *g);
+void			free_tex(t_game *g);
+void			free_sprite(t_game *g);
 
 //parsing map
 bool			load_map(t_game *g, const char *filename);

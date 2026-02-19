@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 14:19:07 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 17:04:43 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:16:56 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	draw_dot(t_game *g, int c_x, int c_y)
 	int	y;
 	int	size;
 
-	size = 13;
+	size = 15;
 	y = -size / 2;
 	while (y <= size / 2)
 	{

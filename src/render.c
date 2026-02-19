@@ -51,7 +51,7 @@ void	draw_vertical_line(t_game *g, int x, t_ray *ray)
 	ray->wall_x -= floor(ray->wall_x); //strip int part
 	y = ray->draw_start;
 	while (y < ray->draw_end)
-	{ //how far are we down the text
+	{//how far are we down the text
 		tex_y = (y - g->screen_h / 2.0 + ray->line_height / 2.0)
 			/ (double)ray->line_height;
 		color = get_color(g, ray, tex_y);

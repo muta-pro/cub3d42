@@ -1,96 +1,76 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_itoa.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/11 15:53:15 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:23:59 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 16:10:41 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:44:38 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-static char	*itoajr(char *s, long nb, int sign);
-static int	calcnumlen(long nb);
-static char	*revstr(char *str);
+static size_t	count_digit(long nbr);
+static void		fill_string(char *nstr, long nbr, size_t len, int is_negative);
 
 char	*ft_itoa(int n)
 {
-	long	nb;
-	int		sign;
-	char	*res;
+	long	nbr;
+	char	*nstr;
+	size_t	len;
+	int		is_negative;
 
-	sign = 0;
-	nb = n;
-	if (nb < 0)
+	is_negative = 0;
+	nbr = n;
+	if (nbr < 0)
 	{
-		nb = -nb;
-		sign = 1;
+		is_negative = 1;
+		nbr = -nbr;
 	}
-	res = malloc(calcnumlen(nb) + sign + 1);
-	if (res == NULL)
+	len = count_digit(nbr) + is_negative;
+	nstr = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!nstr)
+	{
 		return (NULL);
-	return (itoajr(res, nb, sign));
+	}
+	fill_string(nstr, nbr, len, is_negative);
+	return (nstr);
 }
 
-static int	calcnumlen(long nb)
+static size_t	count_digit(long nbr)
 {
-	int	len;
+	size_t	count;
 
-	if (nb == 0)
-		len = 1;
-	else
-		len = 0;
-	while (nb > 0)
+	count = 0;
+	if (nbr == 0)
+		count ++;
+	while (nbr > 0)
 	{
-		nb = nb / 10;
-		len++;
+		count++;
+		nbr = nbr / 10;
 	}
-	return (len);
+	return (count);
 }
 
-static char	*itoajr(char *s, long nb, int sign)
+static void	fill_string(char *nstr, long nbr, size_t len, int is_negative)
 {
-	char	*start;
+	size_t	i;
 
-	start = s;
-	if (nb == 0)
-		*s++ = '0';
-	else
+	i = len - 1;
+	if (nbr == 0)
 	{
-		while (nb > 0)
-		{
-			*s++ = (nb % 10) + '0';
-			nb = nb / 10;
-		}
+		nstr[0] = '0';
+		nstr[1] = '\0';
 	}
-	if (sign == 1)
+	if (is_negative)
 	{
-		*s++ = '-';
+		nstr[0] = '-';
 	}
-	*s = '\0';
-	revstr(start);
-	return (start);
-}
-
-static char	*revstr(char *str)
-{
-	int		len;
-	int		i;
-	char	ph;
-
-	i = 0;
-	len = 0;
-	while (str[len])
-		len++;
-	while (i < len / 2)
+	while (nbr > 0)
 	{
-		ph = str[i];
-		str[i] = str[len - i - 1];
-		str[len - i - 1] = ph;
-		i++;
+		nstr[i] = '0' + (nbr % 10);
+		nbr = nbr / 10;
+		i--;
 	}
-	return (str);
 }

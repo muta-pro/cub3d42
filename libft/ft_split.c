@@ -1,92 +1,92 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_split.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/14 17:27:51 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:30:06 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 13:04:43 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/31 13:50:23 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	**splitjr(const char *s, char c, char **res, int wordcount);
-static char	**freesplit(char **str, int i);
-static int	countwords(const char *str, char c);
-
-char	**ft_split(char const *s, char c)
+static size_t	count_words(const char *s, char c)
 {
-	char	**res;
-	int		wordcount;
+	size_t	i;
+	size_t	count;
 
 	if (!s)
-		return (NULL);
-	wordcount = countwords(s, c);
-	res = (char **)malloc((sizeof(char *)) * (wordcount + 1));
-	if (!res)
-		return (NULL);
-	res = splitjr(s, c, res, wordcount);
-	return (res);
-}
-
-static char	**splitjr(const char *s, char c, char **res, int wordcount)
-{
-	int	i;
-	int	word;
-	int	wordlen;
-
+		return (0);
 	i = 0;
-	word = 0;
-	wordlen = 0;
-	while (word < wordcount)
+	count = 0;
+	while (s[i] != '\0')
 	{
-		wordlen = 0;
-		while (s[i] && s[i] == c)
+		while (s[i] == c && s[i] != '\0')
 			i++;
-		while (s[i] && s[i] != c)
+		if (s[i] != '\0')
 		{
-			i++;
-			wordlen++;
-		}
-		res[word] = ft_substr(s, i - wordlen, wordlen);
-		if (!res[word])
-			return (freesplit(res, word));
-		word++;
-	}
-	res[word] = NULL;
-	return (res);
-}
-
-static char	**freesplit(char **str, int i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(str[i]);
-	}
-	free(str);
-	return (NULL);
-}
-
-static int	countwords(const char *str, char c)
-{
-	int	i;
-	int	words;
-
-	i = 0;
-	words = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			i++;
-		else
-		{
-			words++;
-			while (str[i] != '\0' && str[i] != c)
+			count++;
+			while (s[i] != '\0' && s[i] != c)
 				i++;
 		}
 	}
-	return (words);
+	return (count);
+}
+
+static void	free_words(char **strings, size_t word)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < word)
+	{
+		free (strings[i]);
+		i++;
+	}
+	free (strings);
+}
+
+static char	*next_word(const char *s, char c, size_t *let)
+{
+	size_t	start;
+	size_t	word_len;
+
+	while (s[*let] == c && s[*let] != '\0')
+		(*let)++;
+	start = *let;
+	word_len = 0;
+	while (s[*let] != '\0' && s[*let] != c)
+	{
+		(*let)++;
+		word_len++;
+	}
+	return (ft_substr(s, start, word_len));
+}
+
+char	**ft_split(char const *s, char c)
+{
+	size_t	let;
+	size_t	word;
+	char	**strings;
+
+	word = 0;
+	let = 0;
+	strings = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!strings || !s)
+		return (NULL);
+	while (word < count_words(s, c))
+	{
+		strings[word] = next_word(s, c, &let);
+		if (!strings[word])
+		{
+			free_words (strings, word);
+			return (NULL);
+		}
+		if (strings[word][0] != '\0')
+			word++;
+	}
+	strings[word] = NULL;
+	return (strings);
 }

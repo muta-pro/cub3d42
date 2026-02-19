@@ -1,126 +1,110 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rbagin <rbagin@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/11/14 13:53:55 by rbagin        #+#    #+#                 */
-/*   Updated: 2025/04/16 16:34:04 by rbagin        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 23:44:26 by imutavdz          #+#    #+#             */
+/*   Updated: 2026/02/16 23:22:24 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-#include <stdlib.h>
 
-int	found_newline(t_list *list)
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (!s)
+// 		return (0);
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
+
+// char	*ft_strchr(const char *s, int c)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	while (s[i])
+// 	{
+// 		if (s[i] == (char)c)
+// 			return ((char *)&s[i]);
+// 		i++;
+// 	}
+// 	if ((char)c == '\0')
+// 		return ((char *)&s[i]);
+// 	return (NULL);
+// }
+
+// char	*ft_strdup(const char *s)
+// {
+// 	char	*dup;
+// 	size_t	len;
+// 	size_t	i;
+
+// 	if (!s)
+// 		return (NULL);
+// 	len = ft_strlen(s);
+// 	dup = malloc(len + 1);
+// 	if (!dup)
+// 		return (NULL);
+// 	i = 0;
+// 	while (i < len)
+// 	{
+// 		dup[i] = s[i];
+// 		i++;
+// 	}
+// 	dup[i] = '\0';
+// 	return (dup);
+// }
+
+char	*ft_strndup(const char *s, size_t n)
 {
-	int	i;
+	size_t	i;
+	char	*dup;
 
-	if (NULL == list)
-		return (0);
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i] && i < BUFFER_SIZE)
-		{
-			if (list->str_buf[i] == '\n')
-				return (1);
-			++i;
-		}
-		list = list->next;
-	}
-	return (0);
-}
-
-t_list	*find_last_node(t_list *list)
-{
-	if (list == NULL)
+	if (!s)
 		return (NULL);
-	while (list->next != NULL)
-		list = list->next;
-	return (list);
+	dup = malloc(n + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < n && s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
 
-void	copy_str(t_list *list, char *str)
+char	*join_buffer(char *s1, char *s2)
 {
-	int	i;
-	int	k;
+	char	*result;
+	size_t	i;
+	size_t	j;
+	size_t	len1;
+	size_t	len2;
 
-	if (NULL == list)
-		return ;
-	k = 0;
-	while (list)
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = malloc(len1 + len2 + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (i < len1)
 	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				str[k++] = '\n';
-				str[k] = '\0';
-				return ;
-			}
-			str[k++] = list->str_buf[i++];
-		}
-		list = list->next;
+		result[i] = s1[i];
+		i++;
 	}
-	str[k] = '\0';
-}
-
-int	len_to_newline(t_list *list)
-{
-	int	i;
-	int	len;
-
-	if (NULL == list)
-		return (0);
-	len = 0;
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				++len;
-				return (len);
-			}
-			++i;
-			++len;
-		}
-		list = list->next;
-	}
-	return (len);
-}
-
-/*	1.If the list is empty, it returns immediately.
-	2.It iterates through the list, freeing the string buffer and the node
-	itself for each node.
-	3.After freeing all nodes, it sets the list pointer to NULL.
-	4.It checks if the clean_node has a non-empty buffer. If so, it adds
-	clean_node back to the list. Otherwise, it frees both buf and clean_node.*/
-void	dealloc(t_list **list, t_list *clean_node, char *buf)
-{
-	t_list	*tmp;
-
-	if (NULL == *list)
-		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		free((*list)->str_buf);
-		free(*list);
-		*list = tmp;
-	}
-	*list = NULL;
-	if (!clean_node || !buf)
-		return ;
-	if (clean_node->str_buf[0])
-		*list = clean_node;
-	else
-	{
-		free(buf);
-		free(clean_node);
-	}
+	j = 0;
+	while (j < len2)
+		result[i++] = s2[j++];
+	result[i] = '\0';
+	return (result);
 }

@@ -20,8 +20,8 @@ static void	init_g_struct(t_game *g)
 	g->player.last_mouse_x = SCREEN_WIDTH / 2;
 	g->mini_tile_sz = MINI_TL_SZ;
 	g->mini_view_range = MINI_VIEW_RANGE;
-	g->m_key_pressed = false;
 	g->show_minimap = true;
+	// g->m_key_pressed = false;
 }
 
 int	main(int argc, char const *argv[])

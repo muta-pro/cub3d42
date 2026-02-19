@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_putendl_fd.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yneshev <yneshev@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/14 16:00:28 by yneshev       #+#    #+#                 */
-/*   Updated: 2024/10/24 19:25:19 by yneshev       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 16:13:50 by imutavdz          #+#    #+#             */
+/*   Updated: 2024/10/30 18:44:49 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
@@ -17,10 +16,10 @@ void	ft_putendl_fd(char *s, int fd)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		write(fd, &s[i], 1);
 		i++;
 	}
-	write(fd, "\n", 1);
+	write (fd, "\n", 1);
 }
