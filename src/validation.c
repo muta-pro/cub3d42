@@ -15,9 +15,6 @@
 #define MAX_MAP_H 2000
 #define MAX_MAP_W 2000
 
-//Map validation (flood fill to ensure walls surround player)
-//no holes in the wall
-//player can't wak out of bounds
 static bool	is_walkable(char c)
 {
 	return (c == 'W' || c == 'N' || c == 'E'
@@ -45,28 +42,6 @@ void	flfill_pl_pos(t_game *g, int x, int y, bool **checked)
 		flfill_pl_pos(g, x, y + 1, checked);
 		flfill_pl_pos(g, x, y - 1, checked);
 	}
-}
-
-void	try_open(t_game *g)
-{
-	int		door_x;
-	int		door_y;
-	int		i;
-	double	dist;
-
-	door_x = (int)(g->player.pos.x + g->player.dir_x);
-	door_y = (int)(g->player.pos.y + g->player.dir_y);
-	if (is_out_of_bounds(&g->map, door_x, door_y))
-		return ;
-	if (g->map.grid[door_y][door_x] != 'D')
-		return ;
-	i = pos_door(g, door_x, door_y);
-	if (i == -1)
-		return ;
-	dist = sqrt(pow(g->player.pos.x - door_x - 0.5, 2)
-			+ pow(g->player.pos.y - door_y - 0.5, 2));
-	if (dist < 1.5)
-		g->door[i].open = !g->door[i].open;
 }
 
 static bool	check_map_size(t_game *g)

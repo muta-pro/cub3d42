@@ -74,12 +74,4 @@
 # define DIR_RAY 0x00FF00FF
 # define FALLBACK 0xFF00FFFF
 
-
-# define CREATE_RGB(r, g, b) ((r) << 16 | (g) << 8 | (b))
-//delete these after adding textures.
-# define N_COLOR CREATE_RGB(167, 17, 17)
-# define S_COLOR CREATE_RGB(26, 214, 26)
-# define E_COLOR CREATE_RGB(2, 47, 226)
-# define W_COLOR CREATE_RGB(192, 244, 5)
-
 # endif

@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 18:51:43 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/18 02:20:22 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/19 12:06:25 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	key_press(mlx_key_data_t keydata, void *param)
 	g = (t_game *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(g->mlx);
-		//toggle minimap with M
 	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
 	{
 		g->show_minimap = !g->show_minimap;
@@ -47,8 +46,6 @@ static void	key_press(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_X && keydata.action == MLX_PRESS)
 		try_open(g);
 }
-//register all hooks
-//init mouse position for rotation
 
 void	setup_hooks(t_game *g)
 {
