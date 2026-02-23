@@ -169,6 +169,7 @@ typedef	struct	s_game
 	mlx_image_t		*frame;
 	t_player		player;
 	t_map			map;
+	char			**lines;
 	t_color			color;
 	t_texpath		paths;
 	t_texset		tex[5];

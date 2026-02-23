@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 09:39:53 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/11 11:36:12 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/02/23 19:02:24 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ bool	load_spr(t_game *g)
 			print_exit(ERR_TEX_LOAD, g, true);
 		i++;
 	}
+	g->sprite->spr_tex = g->s_frames[0];
 	return (true);
 }
 

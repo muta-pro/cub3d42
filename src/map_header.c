@@ -26,7 +26,7 @@ bool	parse_color_line(const char *line, t_game *g)
 			print_exit(ERR_DUPL, g, true);
 		if (parse_rgb(line + 2, &g->color.floor))
 			return (g->color.f_set = true, true);
-		return (print_exit(ERR_COLOR_FORM, g, false), false);
+		return (print_exit(ERR_COLOR_FORM, g, true), false);
 	}
 	if (ft_strncmp(line, "C ", 2) == 0)
 	{
@@ -34,7 +34,7 @@ bool	parse_color_line(const char *line, t_game *g)
 			print_exit(ERR_DUPL, g, true);
 		if (parse_rgb(line + 2, &g->color.ceiling))
 			return (g->color.c_set = true, true);
-		return (print_exit(ERR_COLOR_FORM, g, false), false);
+		return (print_exit(ERR_COLOR_FORM, g, true), false);
 	}
 	return (false);
 }

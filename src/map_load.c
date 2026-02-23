@@ -78,19 +78,18 @@ bool	load_map(t_game *g, const char *filename)
 {
 	int		fd;
 	char	*content;
-	char	**lines;
 	int		map_start;
 
 	fd = open_map(filename, g);
 	content = read_file(fd, g);
 	close(fd);
-	lines = split_lines(content, g);
+	g->lines = split_lines(content, g);
 	free(content);
-	map_start = parse_header(lines, g);
-	// check_identif(g);
-	parse_map_grid(lines, map_start, g);
+	map_start = parse_header(g->lines, g);
+	parse_map_grid(g->lines, map_start, g);
 	find_spawn(g);
-	free_lines(lines);
+	free_lines(g->lines);
+	g->lines = NULL;
 	find_door(g);
 	return (true);
 }

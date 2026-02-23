@@ -21,13 +21,14 @@ void	free_sprite(t_game *g)
 		i = 0;
 		while (i < 3)
 		{
-			if (g->s_frames)
+			if (g->s_frames[i])
 				mlx_delete_texture(g->s_frames[i]);
 			i++;
 		}
 		free(g->s_frames);
 	}
 	if (g->sprite)
+
 		free(g->sprite);
 }
 
