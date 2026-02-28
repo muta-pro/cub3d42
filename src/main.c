@@ -21,7 +21,6 @@ static void	init_g_struct(t_game *g)
 	g->mini_tile_sz = MINI_TL_SZ;
 	g->mini_view_range = MINI_VIEW_RANGE;
 	g->show_minimap = true;
-	// g->m_key_pressed = false;
 }
 
 int	main(int argc, char const *argv[])
