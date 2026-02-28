@@ -15,6 +15,16 @@
 //calc_dim_map exits on blank lines, but the subject allows trailing empty 
 //lines after the map—you should stop at first blank after map start
 
+static void	check_trailing_lines(char **lines, int i, t_game *g)
+{
+	while (lines[i])
+	{
+		if (!is_blank_line(lines[i]))
+			print_exit(ERR_MAP_LN, g, true);
+		i++;
+	}
+}
+
 static void	calc_dim_map(char **lines, int m_start, t_game *g)
 {
 	int		height;
@@ -26,16 +36,17 @@ static void	calc_dim_map(char **lines, int m_start, t_game *g)
 	while (lines[m_start + height])
 	{
 		if (is_blank_line(lines[m_start + height]))
-			break ;// Don't error yet. Valid will handle if map is too small.
+			break ;
 		if (!is_map_line(lines[m_start + height]))
 			print_exit(ERR_MAP_LN, g, true);
-		len = ft_strlen(lines[m_start + height]); //do we need int cast?
+		len = ft_strlen(lines[m_start + height]);
 		if (len > max_width)
 			max_width = len;
 		height++;
 	}
 	if (height == 0 || max_width == 0)
 		print_exit(ERR_MAP_EMPTY, g, true);
+	check_trailing_lines(lines, m_start + height, g);
 	g->map.height = height;
 	g->map.width = max_width;
 }
