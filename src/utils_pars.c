@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:43:09 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/18 02:27:25 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/03/02 22:37:11 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	is_map_line(const char *line)
 {
 	while (*line == ' ' || *line == '\t')
 		line++;
-	return (*line == '1' || *line == '0' || *line == ' ');
+	return (*line == '1' || *line == '0');
 }
 
 bool	is_out_of_bounds(t_map *map, int x, int y)

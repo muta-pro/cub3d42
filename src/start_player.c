@@ -13,7 +13,7 @@
 /*(For colors, best is to add flags later: bool has_floor; bool has_ceiling;)*/
 
 #include "cub3d.h"
-
+//array of structs table
 static void	set_orientation(t_player *p, char orient)
 {
 	const t_orient	table[4] = {

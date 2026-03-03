@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 18:07:48 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/19 07:42:04 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/03/02 22:47:23 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	free_sprite(t_game *g)
 		free(g->s_frames);
 	}
 	if (g->sprite)
-
 		free(g->sprite);
 }
 
@@ -65,15 +64,30 @@ void	free_grid(char **grid)
 void	free_tex(t_game *g)
 {
 	if (g->paths.no)
+	{
 		free(g->paths.no);
+		g->paths.no = NULL;
+	}
 	if (g->paths.so)
+	{
 		free(g->paths.so);
+		g->paths.so = NULL;
+	}
 	if (g->paths.we)
+	{
 		free(g->paths.we);
+		g->paths.we = NULL;
+	}
 	if (g->paths.ea)
+	{
 		free(g->paths.ea);
+		g->paths.ea = NULL;
+	}
 	if (g->paths.d)
+	{
 		free(g->paths.d);
+		g->paths.d = NULL;
+	}
 }
 
 void	free_textures(t_game *g)

@@ -6,13 +6,11 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:44:27 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/02/17 12:17:46 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:23:39 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//where and when do I free this line??
 #include "cub3d.h"
-//count_lines - Count number of lines in string
 //str: Newline-separated string
 // If string doesn't end with newline, we have one more line
 //Returns: Number of lines (counts newlines + 1 if no trailing newline)
@@ -44,7 +42,7 @@ static char	*extract_line(const char *start, const char *end)
 	size_t	i;
 
 	len = end - start;
-	line = malloc(len + 1); //should I free a line here? or is it handeled in load_map?
+	line = malloc(len + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
