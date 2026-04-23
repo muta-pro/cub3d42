@@ -6,7 +6,7 @@
 /*   By: imutavdz <imutavdz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:26:31 by imutavdz          #+#    #+#             */
-/*   Updated: 2026/03/02 22:56:38 by imutavdz         ###   ########.fr       */
+/*   Updated: 2026/04/23 17:05:43 by imutavdz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ bool	parse_rgb(const char *s, int *out_color)
 		return (false);
 	if (!parse_single_value(s, &r, &next))
 		return (false);
-	if (!comma_next((const char **)&next)
+	if (!comma_next((const char **)&next))
 		return (false);
 	if (!parse_single_value(next, &g, &next))
 		return (false);
-	if (!comma_next((const char **)&next)
+	if (!comma_next((const char **)&next))
 		return (false);
 	if (!parse_single_value(next, &b, &next))
 		return (false);
