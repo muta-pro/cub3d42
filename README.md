@@ -2,13 +2,16 @@
 
 ---
 
-## What This Is
+## What This Is!
+
 
 cub3D is a first-person 3D engine built from scratch in C, using nothing but raycasting mathematics and a minimal graphics library (MLX42). No OpenGL. No game engine. No hand-holding. Just math, pointers, and the grim satisfaction of watching something render correctly after hours of debugging floating-point arithmetic.
 
 This was built as part of the 42 School curriculum. The mandatory part implements a functional raycasting engine. The bonus part adds interactive doors, a player-centric minimap, and animated sprites — because apparently suffering is additive.
 
 If you're looking for Unity or Unreal, you've come to the wrong place. This is C. We do things properly here.
+
+## FLOW-CHART display -> [Cub3d](https://github.com/user-attachments/assets/cb531bfc-f809-4b17-b07c-0231ea3ce724)
 
 ---
 
