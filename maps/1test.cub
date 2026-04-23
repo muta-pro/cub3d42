@@ -3,7 +3,7 @@ SO ./assets/south.xpm42
 EA ./assets/east.xpm42
 WE ./assets/west.xpm42
 
-F 50,50 50
+F 50,50, 50
 C 0,0,139
 
 1111111111111111
